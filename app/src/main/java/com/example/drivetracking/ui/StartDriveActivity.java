@@ -29,6 +29,7 @@ public class StartDriveActivity extends AppCompatActivity {
         startService = (Button) findViewById(R.id.start);
         distance = (TextView) findViewById(R.id.distance);
         time = (TextView) findViewById(R.id.time);
+        //time.setText("00:00:00");
         startService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

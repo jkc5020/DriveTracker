@@ -26,6 +26,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.example.drivetracking.BE.Trip;
 import com.example.drivetracking.R;
+import com.example.drivetracking.ui.ProfileActivity;
 import com.example.drivetracking.ui.StartDriveActivity;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -55,7 +56,9 @@ public class MyNavigationService extends Service implements LocationListener {
     private int seconds = 0;
     private boolean serviceRunning;
     private boolean wasRunning;
+    private final Handler handler = new Handler();
     String time;
+    Runnable runnable;
     private LocationCallback locationCallback = new LocationCallback()
     {
         @Override
@@ -92,7 +95,6 @@ public class MyNavigationService extends Service implements LocationListener {
     public void onCreate() {
         super.onCreate();
         serviceRunning = true;
-
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         locationRequest = LocationRequest.create();
         locationRequest.setInterval(4000);
@@ -110,14 +112,38 @@ public class MyNavigationService extends Service implements LocationListener {
                         }
                     }
                 });
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                int hours = seconds / 3600;
+                int minutes = (seconds % 3600) / 60;
+                int secs = seconds % 60;
+                time = String.format(Locale.getDefault(), "%d:%02d:%02d", hours, minutes, secs);
+                if (serviceRunning) {
+                    seconds++;
+                }
+                StartDriveActivity.time.setText(time);
+                handler.postDelayed(this, 1000);
+
+
+
+            }
+        });
     }
 
     @Override
     public void onDestroy() {
         stopLocationUpdates();
         serviceRunning = false;
+        seconds = 0;
+        handler.removeCallbacksAndMessages(null);
         Trip trip = new Trip(totalDistance, time);
+        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("trip", trip);
         super.onDestroy();
+        startActivity(intent);
     }
 
     private void checkSettings(){
@@ -158,24 +184,6 @@ public class MyNavigationService extends Service implements LocationListener {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        final Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                int hours = seconds / 3600;
-                int minutes = (seconds % 3600) / 60;
-                int secs = seconds % 60;
-                time = String.format(Locale.getDefault(), "%d:%02d:%02d", hours, minutes, secs);
-                if (serviceRunning) {
-                    seconds++;
-                }
-                StartDriveActivity.time.setText(time);
-                handler.postDelayed(this, 1000);
-
-
-
-            }
-        });
         String input = intent.getStringExtra("inputExtra");
         createNotificationChannel();
         Intent notificationIntent = new Intent(this, StartDriveActivity.class);

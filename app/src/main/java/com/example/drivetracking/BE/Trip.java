@@ -1,6 +1,8 @@
 package com.example.drivetracking.BE;
 
-public class Trip {
+import java.io.Serializable;
+
+public class Trip implements Serializable {
     private Double miles;
     private String time;
     private int gallons;

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.drivetracking.BE.Trip;
 import com.example.drivetracking.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -16,7 +17,12 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
+        Trip newTrip = (Trip)getIntent().getSerializableExtra("trip");
+        if(newTrip != null) {
+            System.out.println("ProfileActivity");
+            System.out.println("Time" + newTrip.getTime());
+            System.out.println("0000000");
+        }
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.profile);
 
