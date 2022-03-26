@@ -20,21 +20,27 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:padding="15dp"
+            android:text="TextView"
+            android:textSize="25sp" />
 
         <TextView
             android:id="@+id/totalTime"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:padding="15dp"
+            android:text="TextView"
+            android:textSize="25sp" />
 
         <TextView
             android:id="@+id/totalGallons"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:padding="15dp"
+            android:text="TextView"
+            android:textSize="25sp" />
 
     </LinearLayout>
 

@@ -32,8 +32,7 @@ import java.util.Locale;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    ScrollView scrollView;
-    LinearLayout driveList;
+
     TextView totalMiles;
     TextView totalTime;
     TextView totalGas;
@@ -138,15 +137,19 @@ public class ProfileActivity extends AppCompatActivity {
         String tTime;
         Double tMiles = 0.0;
         int tSeconds = 0;
+        int size = trips.size();
         for (Trip trip: trips) {
             tSeconds += trip.getTotalSeconds();
             tMiles += trip.getMiles();
 
         }
         tTime = calculateTime(tSeconds);
-        totalTime.setText(tTime);
-        totalGas.setText("0");
-        totalMiles.setText(String.valueOf(tMiles));
+        String sTime = "Total time is :\n" + tTime;
+        String sMiles = "Total miles is: \n" + tMiles + " miles";
+        String sGas = "Total gas is: \n 0 gallons";
+        totalTime.setText(sTime);
+        totalGas.setText(sGas);
+        totalMiles.setText(sMiles);
 
 
     }
