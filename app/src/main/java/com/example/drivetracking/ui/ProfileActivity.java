@@ -77,12 +77,13 @@ public class ProfileActivity extends AppCompatActivity {
         loadData();
         driveList = (LinearLayout) findViewById(R.id.parent_linear_layout);
         Intent intent = getIntent();
-        if(intent != null) {
-            Double distance = intent.getDoubleExtra("miles", 0);
-            String time = intent.getStringExtra("time");
+        Double distance = intent.getDoubleExtra("miles", 0);
+        String time = intent.getStringExtra("time");
+        if(time != null) {
             Trip newTrip = new Trip(distance, time);
             trips.add(newTrip);
         }
+
         initViews();
 
 
