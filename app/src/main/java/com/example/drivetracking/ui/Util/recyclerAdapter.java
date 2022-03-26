@@ -45,8 +45,8 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
         Double miles = tripList.get(position).getMiles();
         int gallons = tripList.get(position).getGallons();
         holder.time.setText(time);
-        holder.distance.setText(String.valueOf(miles));
-        holder.gas.setText(String.valueOf(gallons));
+        holder.distance.setText(String.valueOf(miles) + " miles");
+        holder.gas.setText(String.valueOf(gallons) + " gallons");
 
     }
 

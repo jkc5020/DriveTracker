@@ -46,6 +46,7 @@ public class StartDriveActivity extends AppCompatActivity {
                                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
                         }
                     }
+                    startService.setBackgroundColor(getResources().getColor(R.color.white));
                     activateService();
                 }
                 else{

@@ -85,7 +85,7 @@ public class MyNavigationService extends Service implements LocationListener {
         if(meters > 3) {
             totalDistance += (meters * 0.000621371192237334);
             DecimalFormat decimalFormat = new DecimalFormat("######.##");
-            StartDriveActivity.distance.setText(decimalFormat.format(totalDistance) + "meters");
+            StartDriveActivity.distance.setText(decimalFormat.format(totalDistance) + "miles");
             prevLocation = currentLocation;
         }
         meters = 0;

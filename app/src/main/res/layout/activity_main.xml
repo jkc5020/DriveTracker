@@ -10,6 +10,7 @@
         android:id="@+id/startDrive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#213DF3"
         android:text="@string/start_a_new_drive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,6 +29,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"
+        android:background="#4CAF50"
         app:menu="@menu/menu_bottom_navigation"/>
 
 

@@ -36,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="183dp"
         android:layout_weight="1"
+        android:backgroundTint="#8BC34A"
         android:text="Start/Stop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

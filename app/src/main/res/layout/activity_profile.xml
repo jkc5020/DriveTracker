@@ -15,32 +15,74 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/totalDistance"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="15dp"
-            android:text="TextView"
-            android:textSize="25sp" />
+            android:orientation="vertical"
+            android:padding="15dp">
 
-        <TextView
-            android:id="@+id/totalTime"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="15dp"
-            android:text="TextView"
-            android:textSize="25sp" />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:text="Total distance:"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/totalGallons"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/totalDistance"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:text="TextView"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="15dp"
-            android:text="TextView"
-            android:textSize="25sp" />
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:text="Total time:"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/totalTime"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:text="TextView"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:text="Total gallons:"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/totalGallons"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:text="TextView"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -52,9 +94,10 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="#4CAF50"
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"
         app:layout_constraintBottom_toBottomOf="parent"

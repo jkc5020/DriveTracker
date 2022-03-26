@@ -144,10 +144,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         }
         tTime = calculateTime(tSeconds);
-        String sTime = "Total time is :\n" + tTime;
-        String sMiles = "Total miles is: \n" + tMiles + " miles";
-        String sGas = "Total gas is: \n 0 gallons";
-        totalTime.setText(sTime);
+        String sMiles = tMiles + " miles";
+        String sGas = "0 gallons";
+        totalTime.setText(tTime);
         totalGas.setText(sGas);
         totalMiles.setText(sMiles);
 
