@@ -1,10 +1,14 @@
 package com.example.drivetracking.BE;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Trip implements Serializable {
-    private Double miles;
-    private String time;
+import java.io.Serializable;
+import java.text.DecimalFormat;
+
+public class Trip implements Parcelable {
+    public Double miles;
+    public String time;
     private int gallons;
 
 
@@ -15,6 +19,28 @@ public class Trip implements Serializable {
         this.gallons = 0;
     }
 
+    protected Trip(Parcel in) {
+        if (in.readByte() == 0) {
+            miles = null;
+        } else {
+            miles = in.readDouble();
+        }
+        time = in.readString();
+        gallons = in.readInt();
+    }
+
+    public static final Creator<Trip> CREATOR = new Creator<Trip>() {
+        @Override
+        public Trip createFromParcel(Parcel in) {
+            return new Trip(in);
+        }
+
+        @Override
+        public Trip[] newArray(int size) {
+            return new Trip[size];
+        }
+    };
+
     public int getGallons() {
         return gallons;
     }
@@ -24,10 +50,24 @@ public class Trip implements Serializable {
     }
 
     public Double getMiles() {
-        return miles;
+        DecimalFormat decimalFormat = new DecimalFormat("#####.##");
+        return Double.valueOf(decimalFormat.format(miles));
     }
 
     public String getTime() {
         return time;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(miles);
+        dest.writeString(time);
+        dest.writeInt(gallons);
+
     }
 }

@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
+import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -41,6 +42,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
@@ -138,10 +140,10 @@ public class MyNavigationService extends Service implements LocationListener {
         serviceRunning = false;
         seconds = 0;
         handler.removeCallbacksAndMessages(null);
-        Trip trip = new Trip(totalDistance, time);
         Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("trip", trip);
+        intent.putExtra("miles", totalDistance);
+        intent.putExtra("time", time);
         super.onDestroy();
         startActivity(intent);
     }
