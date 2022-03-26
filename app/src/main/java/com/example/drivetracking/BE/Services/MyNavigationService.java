@@ -138,12 +138,14 @@ public class MyNavigationService extends Service implements LocationListener {
     public void onDestroy() {
         stopLocationUpdates();
         serviceRunning = false;
-        seconds = 0;
+        //seconds = 0;
         handler.removeCallbacksAndMessages(null);
         Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("miles", totalDistance);
         intent.putExtra("time", time);
+        intent.putExtra("seconds", seconds);
+        seconds = 0;
         super.onDestroy();
         startActivity(intent);
     }

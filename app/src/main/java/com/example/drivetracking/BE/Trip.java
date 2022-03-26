@@ -10,14 +10,17 @@ public class Trip implements Parcelable {
     public Double miles;
     public String time;
     private int gallons;
+    private int totalSeconds;
 
 
-
-    public Trip(Double miles, String time) {
+    public Trip(Double miles, String time, int totalSeconds) {
         this.miles = miles;
         this.time = time;
         this.gallons = 0;
+        this.totalSeconds = totalSeconds;
     }
+
+
 
     protected Trip(Parcel in) {
         if (in.readByte() == 0) {
@@ -41,6 +44,9 @@ public class Trip implements Parcelable {
         }
     };
 
+    public int getTotalSeconds() {
+        return totalSeconds;
+    }
     public int getGallons() {
         return gallons;
     }

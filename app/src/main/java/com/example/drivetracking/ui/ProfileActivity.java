@@ -2,6 +2,9 @@ package com.example.drivetracking.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,12 +12,14 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.drivetracking.BE.Trip;
 import com.example.drivetracking.R;
+import com.example.drivetracking.ui.Util.recyclerAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -23,13 +28,18 @@ import org.w3c.dom.Text;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ProfileActivity extends AppCompatActivity {
 
     ScrollView scrollView;
     LinearLayout driveList;
+    TextView totalMiles;
+    TextView totalTime;
+    TextView totalGas;
     ArrayList<Trip> trips;
     String sharedPrefs = "sharedPrefs";
+    private RecyclerView recyclerView;
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -74,13 +84,18 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        recyclerView = findViewById(R.id.driveLog);
+        totalMiles = (TextView) findViewById(R.id.totalDistance);
+        totalTime = (TextView) findViewById(R.id.totalTime);
+        totalGas = (TextView) findViewById(R.id.totalGallons);
         loadData();
-        driveList = (LinearLayout) findViewById(R.id.parent_linear_layout);
+        //driveList = (LinearLayout) findViewById(R.id.parent_linear_layout);
         Intent intent = getIntent();
         Double distance = intent.getDoubleExtra("miles", 0);
         String time = intent.getStringExtra("time");
+        int seconds = intent.getIntExtra("seconds", 0);
         if(time != null) {
-            Trip newTrip = new Trip(distance, time);
+            Trip newTrip = new Trip(distance, time, seconds);
             trips.add(newTrip);
         }
 
@@ -114,18 +129,32 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void initViews(){
+        recyclerAdapter adapter = new recyclerAdapter(trips);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+        int tGallons = 0;
+        String tTime;
+        Double tMiles = 0.0;
+        int tSeconds = 0;
         for (Trip trip: trips) {
-            View singleDrive = (View) getLayoutInflater().inflate(R.layout.single_drive, null,false);
-            TextView miles = (TextView) singleDrive.findViewById(R.id.tripDistance);
-            TextView gas = (TextView) singleDrive.findViewById(R.id.tripGas);
-            TextView time = (TextView) singleDrive.findViewById(R.id.tripTime);
-            miles.setText(String.valueOf(trip.getMiles()));
-            gas.setText("empty");
-            time.setText(trip.getTime());
-
-            driveList.addView(singleDrive);
+            tSeconds += trip.getTotalSeconds();
+            tMiles += trip.getMiles();
 
         }
+        tTime = calculateTime(tSeconds);
+        totalTime.setText(tTime);
+        totalGas.setText("0");
+        totalMiles.setText(String.valueOf(tMiles));
 
+
+    }
+
+    private String calculateTime(int seconds) {
+        int hours = seconds / 3600;
+        int minutes = (seconds % 3600) / 60;
+        int secs = seconds % 60;
+        return String.format(Locale.getDefault(), "%d:%02d:%02d", hours, minutes, secs);
     }
 }
