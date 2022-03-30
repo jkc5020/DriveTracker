@@ -10,11 +10,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.drivetracking.BE.Trip;
@@ -24,9 +19,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.w3c.dom.Text;
-
 import java.lang.reflect.Type;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -128,6 +122,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void initViews(){
+        DecimalFormat decimalFormat = new DecimalFormat("#####.##");
         recyclerAdapter adapter = new recyclerAdapter(trips);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -144,7 +139,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         }
         tTime = calculateTime(tSeconds);
-        String sMiles = tMiles + " miles";
+        String sMiles = decimalFormat.format(tMiles) + " miles";
         String sGas = "0 gallons";
         totalTime.setText(tTime);
         totalGas.setText(sGas);

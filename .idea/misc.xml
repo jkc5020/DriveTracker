@@ -3,6 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/j16kc/AndroidStudioProjects/DriveTracking/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.184" />
+        <entry key="..\:/Users/j16kc/AndroidStudioProjects/DriveTracking/app/src/main/res/drawable/app_icon.xml" value="0.184" />
+        <entry key="..\:/Users/j16kc/AndroidStudioProjects/DriveTracking/app/src/main/res/drawable/button_rounded_corner.xml" value="0.184" />
+        <entry key="..\:/Users/j16kc/AndroidStudioProjects/DriveTracking/app/src/main/res/drawable/ic_app_icon_foreground.xml" value="0.184" />
+        <entry key="..\:/Users/j16kc/AndroidStudioProjects/DriveTracking/app/src/main/res/drawable/ic_baseline_access_time_filled_24.xml" value="0.184" />
+        <entry key="..\:/Users/j16kc/AndroidStudioProjects/DriveTracking/app/src/main/res/drawable/ic_baseline_attach_money_24.xml" value="0.184" />
+        <entry key="..\:/Users/j16kc/AndroidStudioProjects/DriveTracking/app/src/main/res/drawable/ic_baseline_directions_car_24.xml" value="0.184" />
+        <entry key="..\:/Users/j16kc/AndroidStudioProjects/DriveTracking/app/src/main/res/drawable/ic_launcher_background.xml" value="0.184" />
+        <entry key="..\:/Users/j16kc/AndroidStudioProjects/DriveTracking/app/src/main/res/drawable/layout_rounded.xml" value="0.184" />
+        <entry key="..\:/Users/j16kc/AndroidStudioProjects/DriveTracking/app/src/main/res/drawable/rounded_layout_driving.xml" value="0.184" />
+        <entry key="..\:/Users/j16kc/AndroidStudioProjects/DriveTracking/app/src/main/res/drawable/rounded_layout_profile.xml" value="0.184" />
         <entry key="..\:/Users/j16kc/AndroidStudioProjects/DriveTracking/app/src/main/res/drawable/selector.xml" value="0.184" />
         <entry key="..\:/Users/j16kc/AndroidStudioProjects/DriveTracking/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/j16kc/AndroidStudioProjects/DriveTracking/app/src/main/res/layout/activity_profile.xml" value="0.17552083333333332" />

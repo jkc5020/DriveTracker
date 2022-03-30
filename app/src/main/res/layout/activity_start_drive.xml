@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:orientation="horizontal"
+        android:background="@drawable/rounded_layout_driving"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -18,7 +19,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:paddingTop="150dp"
             android:text="0.00 Miles"
+            android:textColor="#FF151515"
             android:textSize="35sp" />
 
         <TextView
@@ -26,7 +29,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:paddingTop="150dp"
             android:text="00:00:00"
+            android:textColor="#151515"
             android:textSize="38sp" />
     </LinearLayout>
 

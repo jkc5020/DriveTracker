@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+
 public class Trip implements Parcelable {
     public Double miles;
     public String time;

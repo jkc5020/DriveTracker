@@ -13,20 +13,23 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/rounded_layout_profile">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="15dp">
+            android:padding="15dp"
+            >
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
                 android:text="Total distance:"
+                android:textColor="#0E0E0E"
                 android:textSize="20sp" />
 
             <TextView
@@ -34,6 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
                 android:text="TextView"
+                android:textColor="#FF0E0E0E"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -49,14 +53,16 @@
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
-                android:text="Total time:"
+                android:text="Total gallons:"
+                android:textColor="#FF0E0E0E"
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/totalTime"
+                android:id="@+id/totalGallons"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
                 android:text="TextView"
+                android:textColor="#FF0E0E0E"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -72,14 +78,16 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
-                android:text="Total gallons:"
+                android:text="Total time:"
+                android:textColor="#FF0E0E0E"
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/totalGallons"
+                android:id="@+id/totalTime"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
                 android:text="TextView"
+                android:textColor="#FF0E0E0E"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>

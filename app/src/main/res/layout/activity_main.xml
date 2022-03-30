@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#213DF3"
         android:text="@string/start_a_new_drive"
+        android:background="@drawable/button_rounded_corner"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

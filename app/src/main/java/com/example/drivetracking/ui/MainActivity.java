@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.drivetracking.BE.Car;
 import com.example.drivetracking.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Car car = new Car("Honda", "Civic", "2012", getApplicationContext());
         Button button = (Button) findViewById(R.id.startDrive);
 
         button.setOnClickListener(new View.OnClickListener() {
