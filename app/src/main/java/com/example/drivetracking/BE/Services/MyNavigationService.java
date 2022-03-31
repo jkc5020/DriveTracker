@@ -48,19 +48,29 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executor;
 
+/**
+ * NavicationService that extends the service class to use a foreground service,
+ * and implements the LocationListener to track the user's location for a given trip.
+ */
 public class MyNavigationService extends Service implements LocationListener {
-    public static final String CHANNEL_ID = "ForegroundServiceChannel";
-    private LocationManager locationManager;
-    private FusedLocationProviderClient fusedLocationProviderClient;
-    private Location prevLocation;
-    private Location currentLocation;
-    private double totalDistance = 0.0;
-    private int seconds = 0;
+    public static final String CHANNEL_ID = "ForegroundServiceChannel";  //Channel Id for notification
+    private LocationManager locationManager;                            //Location manager
+    private FusedLocationProviderClient fusedLocationProviderClient;    //Google play services feature that finds best location based
+                                                                        //on cellular/internet/ gps
+    private Location prevLocation;                                      //previous location that was logged
+    private Location currentLocation;                                   //current location of phone
+    private double totalDistance = 0.0;                                 //total distance that has been logged
+    private int seconds = 0;                                            // total seconds
     private boolean serviceRunning;
     private boolean wasRunning;
-    private final Handler handler = new Handler();
-    String time;
-    Runnable runnable;
+    private final Handler handler = new Handler();                      //Handler to manage Runnable for stopwatch
+    String time;                                                        //Time of trip
+    Runnable runnable;                                                  //Runnable for stopwatch
+
+    /**
+     * Callback to manage a new location, calls helper method to calculate distance from last
+     * location to current one
+     */
     private LocationCallback locationCallback = new LocationCallback()
     {
         @Override
@@ -79,9 +89,15 @@ public class MyNavigationService extends Service implements LocationListener {
         }
     };
 
+    /**
+     * Calculate's the distance from last location to this location
+     * @param location - Location object that was just logged
+     */
     private void calculateDistance(Location location) {
         currentLocation = location;
         double meters = location.distanceTo(prevLocation);
+
+        // ensures that distance is only logged if phone actually moved and the gps wasn't calibrating
         if(meters > 3) {
             totalDistance += (meters * 0.000621371192237334);
             DecimalFormat decimalFormat = new DecimalFormat("######.##");
@@ -92,6 +108,10 @@ public class MyNavigationService extends Service implements LocationListener {
     }
 
     private LocationRequest locationRequest;
+
+    /**
+     * Creates instance of the service
+     */
     @SuppressLint("MissingPermission")
     @Override
     public void onCreate() {
@@ -115,6 +135,9 @@ public class MyNavigationService extends Service implements LocationListener {
                     }
                 });
 
+        /**
+         * Runnable created to operate stopwatch on background thread
+         */
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -134,6 +157,9 @@ public class MyNavigationService extends Service implements LocationListener {
         });
     }
 
+    /**
+     * Destroys service when trip is done
+     */
     @Override
     public void onDestroy() {
         stopLocationUpdates();
@@ -150,6 +176,9 @@ public class MyNavigationService extends Service implements LocationListener {
         startActivity(intent);
     }
 
+    /**
+     * Checks settings of device to ensure that locations can start being used
+     */
     private void checkSettings(){
         LocationSettingsRequest request = new LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest).build();
@@ -185,6 +214,14 @@ public class MyNavigationService extends Service implements LocationListener {
     private void stopLocationUpdates(){
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
+
+    /**
+     * Starts service
+     * @param intent - intent of service
+     * @param flags -
+     * @param startId -
+     * @return - START_NOT_STICKY
+     */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
@@ -207,6 +244,10 @@ public class MyNavigationService extends Service implements LocationListener {
 
 
     }
+
+    /**
+     * Creates notification channel
+     */
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel serviceChannel = new NotificationChannel(
@@ -220,6 +261,7 @@ public class MyNavigationService extends Service implements LocationListener {
 
     }
 
+    //// Methods required for interface
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {

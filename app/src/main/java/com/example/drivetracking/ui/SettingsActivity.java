@@ -15,6 +15,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Locale;
 
+/**
+ * Not fully implemented yet
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     // Number of seconds displayed

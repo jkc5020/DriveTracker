@@ -13,18 +13,33 @@ import com.example.drivetracking.R;
 
 import java.util.ArrayList;
 
+/**
+ * Recycler adapter used for RecyclerView to log all drives
+ */
 public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyViewHolder> {
 
-    private ArrayList<Trip> tripList;
+    private ArrayList<Trip> tripList; // list of all trips
 
+    /**
+     * Initializes trip list
+     * @param tripList
+     */
     public recyclerAdapter(ArrayList<Trip> tripList) {
         this.tripList = tripList;
     }
 
+    /**
+     * Creates viewholder containing the information required
+     */
     public class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView distance;
         private TextView time;
         private TextView gas;
+
+        /**
+         * Constructor
+         * @param itemView - the view
+         */
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             distance = itemView.findViewById(R.id.tripDistance);
@@ -32,6 +47,13 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
             gas = itemView.findViewById(R.id.tripGas);
         }
     }
+
+    /**
+     * Adds itemView to the layout
+     * @param parent - parent layout
+     * @param viewType - type of layout
+     * @return - the new view to add
+     */
     @NonNull
     @Override
     public recyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,6 +61,12 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
         return new MyViewHolder(itemView);
     }
 
+
+    /**
+     * sets text to the view on screen
+     * @param holder - holder
+     * @param position - position
+     */
     @Override
     public void onBindViewHolder(@NonNull recyclerAdapter.MyViewHolder holder, int position) {
         String time = tripList.get(position).getTime();
@@ -50,6 +78,10 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
 
     }
 
+    /**
+     * Returns item count
+     * @return - size of arrayList
+     */
     @Override
     public int getItemCount() {
         return tripList.size();

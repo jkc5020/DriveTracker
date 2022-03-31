@@ -8,13 +8,22 @@ import java.text.DecimalFormat;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
+/**
+ * Trip class stores a current trip a user has completed
+ */
 public class Trip implements Parcelable {
-    public Double miles;
-    public String time;
-    private int gallons;
-    private int totalSeconds;
+    public Double miles;        // miles of trip
+    public String time;         // time duration
+    private int gallons;        // gallons used
+    private int totalSeconds;   // used to calculate time across all trips
 
 
+    /**
+     * Constructor
+     * @param miles - miles of trip
+     * @param time - time of trip
+     * @param totalSeconds - time of trip in seconds
+     */
     public Trip(Double miles, String time, int totalSeconds) {
         this.miles = miles;
         this.time = time;
@@ -34,6 +43,9 @@ public class Trip implements Parcelable {
         gallons = in.readInt();
     }
 
+    /**
+     * Parceable implementation used to store trip in arrayList
+     */
     public static final Creator<Trip> CREATOR = new Creator<Trip>() {
         @Override
         public Trip createFromParcel(Parcel in) {
