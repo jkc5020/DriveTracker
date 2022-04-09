@@ -45,14 +45,15 @@ public class Car {
      * @param year - car year
      * @param context - application context
      */
-    public Car(String make, String model, String year, Context context) {
+    public Car(String make, String model, String year, int mpg, Context context) {
         this.make = make;
         this.model = model;
         this.year = year;
+        this.mpg = mpg;
         this.URL = "https://www.fueleconomy.gov/ws/rest/ympg/shared/vehicles?make=" + make + "&model="+ model + "&year=" + year;
         this.context = context;
         //makeAPICall(context);
-        callTwo(context);
+        //callTwo(context);
         //callThree(context);
     }
 
