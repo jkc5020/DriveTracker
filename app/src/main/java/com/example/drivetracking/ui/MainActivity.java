@@ -5,11 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,13 +25,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.drivetracking.BE.Car;
+import com.example.drivetracking.BE.Trip;
 import com.example.drivetracking.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +44,7 @@ import java.util.Map;
  * MainActivity shows a button to add a car along with EditText Views
  * to enter that information, as well as a button to start a drive
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private String URL = "";
     private Button button;
     private Button addCar;
@@ -43,18 +52,29 @@ public class MainActivity extends AppCompatActivity {
     private EditText year;
     private EditText model;
     private Car car;
-    private TextView carInfo;
+    private ArrayList<Car> cars;
+    private Spinner carList;
+    private ArrayAdapter<Car> adapter;
+    private String sharedPrefs = "sharedPrefs";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Bundle bundle = new Bundle();
+        loadData();
         this.button = (Button) findViewById(R.id.startDrive);
         this.addCar = (Button) findViewById(R.id.addCar);
         this.make = (EditText) findViewById(R.id.make);
         this.model = (EditText) findViewById(R.id.model);
         this.year = (EditText) findViewById(R.id.year);
-        carInfo = (TextView) findViewById(R.id.currentCar);
+        this.carList = (Spinner) findViewById(R.id.carList);
+        this.carList.setOnItemSelectedListener(this);
+        this.adapter = new ArrayAdapter<Car>(this, android.R.layout.simple_spinner_item, cars);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        carList.setAdapter(adapter);
+
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                carInfo.setVisibility(View.VISIBLE);
                 //TODO - Work on having this action wait until API response received
                 callTwo(make.getText().toString(), model.getText().toString(), year.getText().toString());
 
@@ -107,6 +126,62 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Car car = (Car) parent.getSelectedItem();
+        displayText(car);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+
+    private void displayText(Car car){
+        //this.carInfo.setText(car.toString());
+    }
+
+    private void loadData(){
+        SharedPreferences sharedPreferences = getSharedPreferences(sharedPrefs, MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("cars", null);
+        Type type = new TypeToken<ArrayList<Car>>(){}.getType();
+        cars = gson.fromJson(json, type);
+        if(json == null){
+            cars = new ArrayList<>();
+        }
+
+    }
+
+    private void saveData(){
+        SharedPreferences sharedPreferences = getSharedPreferences(sharedPrefs, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(cars);
+        editor.putString("cars", json);
+        editor.apply();
+
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        saveData();
+    }
+
+    public void getSelectedCar(View v){
+        Car car = (Car) carList.getSelectedItem();
+        displayText(car);
+
+    }
     /**
      * Current method used to call API endpoint URL. Uses the Android volley library
      * to retrieve the JsonArray from the returned JsonObject, and calls helper method
@@ -183,7 +258,9 @@ public class MainActivity extends AppCompatActivity {
                 this.car= new Car(make.getText().toString(),
                         model.getText().toString(), year.getText().toString(), mpg, getApplicationContext());
                 System.out.println(mpg);
-                this.carInfo.setText(car.toString());
+                Toast.makeText(this, "Car Added", Toast.LENGTH_LONG).show();
+                //this.cars.add(car);
+                this.adapter.add(car);
                 make.setText("");
                 model.setText("");
                 year.setText("");
@@ -199,4 +276,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, StartDriveActivity.class);
         startActivity(intent);
     }
+
+
 }
