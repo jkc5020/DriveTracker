@@ -3,13 +3,16 @@ package com.example.drivetracking.ui;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,12 +25,17 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.drivetracking.BE.Car;
 import com.example.drivetracking.R;
+import com.example.drivetracking.ui.Util.SpinnerAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,19 +50,47 @@ public class MainActivity extends AppCompatActivity {
     private EditText make;
     private EditText year;
     private EditText model;
+    private Spinner carList;
+    private SpinnerAdapter adapter;
     private Car car;
     private TextView carInfo;
+    private String SHAREDPREFS = "sharedPrefs";
+    private ArrayList<Car> cars;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Bundle bundle = new Bundle();
+
+        this.carList = (Spinner) findViewById(R.id.carList);
+        this.carList.setAdapter(adapter);
+        this.cars = new ArrayList<>();
+        this.adapter = new SpinnerAdapter(MainActivity.this, android.R.layout.simple_spinner_item, cars);
+        loadData();
+
         this.button = (Button) findViewById(R.id.startDrive);
         this.addCar = (Button) findViewById(R.id.addCar);
         this.make = (EditText) findViewById(R.id.make);
         this.model = (EditText) findViewById(R.id.model);
         this.year = (EditText) findViewById(R.id.year);
         carInfo = (TextView) findViewById(R.id.currentCar);
+
+
+
+        carList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Car car = adapter.getItem(position);
+                // do something
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                carInfo.setVisibility(View.VISIBLE);
+                //carInfo.setVisibility(View.VISIBLE);
                 //TODO - Work on having this action wait until API response received
                 callTwo(make.getText().toString(), model.getText().toString(), year.getText().toString());
 
@@ -105,6 +141,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void loadData(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHAREDPREFS, MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("cars", null);
+        Type type = new TypeToken<ArrayList<Car>>(){}.getType();
+        cars = gson.fromJson(json, type);
+        if(cars == null){
+            cars = new ArrayList<>();
+        }
+
+
+    }
+
+    private void saveData(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHAREDPREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(cars);
+        editor.putString("cars", json);
+        editor.apply();
     }
 
     /**
@@ -187,6 +245,15 @@ public class MainActivity extends AppCompatActivity {
                 make.setText("");
                 model.setText("");
                 year.setText("");
+                cars.add(car);
+                if(cars.size() > 1) {
+                    adapter.clear();
+                }
+                adapter.addAll(cars);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                carList.setAdapter(adapter);
+                Toast.makeText(getApplicationContext(), "Car added", Toast.LENGTH_LONG).show();
+
             }
 
         }
@@ -198,5 +265,23 @@ public class MainActivity extends AppCompatActivity {
     private void openNewActivity() {
         Intent intent = new Intent(this, StartDriveActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //loadData();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        saveData();
     }
 }

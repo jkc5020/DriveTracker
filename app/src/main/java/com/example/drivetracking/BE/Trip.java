@@ -44,7 +44,7 @@ public class Trip implements Parcelable {
     }
 
     /**
-     * Parceable implementation used to store trip in arrayList
+     * Parcelable implementation used to store trip in arrayList
      */
     public static final Creator<Trip> CREATOR = new Creator<Trip>() {
         @Override
