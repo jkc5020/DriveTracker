@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -77,7 +76,9 @@ public class MainActivity extends AppCompatActivity {
         carInfo = (TextView) findViewById(R.id.currentCar);
 
 
-
+        if(cars.size() > 0){
+            updateList();
+        }
         carList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -152,6 +153,9 @@ public class MainActivity extends AppCompatActivity {
         if(cars == null){
             cars = new ArrayList<>();
         }
+
+
+
 
 
     }
@@ -239,24 +243,28 @@ public class MainActivity extends AppCompatActivity {
                 int highway = Integer.parseInt(jsonArray.getJSONObject(i).getString("highway08"));
                 int mpg = (city + highway) / 2;
                 this.car= new Car(make.getText().toString(),
-                        model.getText().toString(), year.getText().toString(), mpg, getApplicationContext());
+                        model.getText().toString(), year.getText().toString(), mpg);
                 System.out.println(mpg);
                 this.carInfo.setText(car.toString());
                 make.setText("");
                 model.setText("");
                 year.setText("");
                 cars.add(car);
-                if(cars.size() > 1) {
-                    adapter.clear();
-                }
-                adapter.addAll(cars);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-                carList.setAdapter(adapter);
+                updateList();
                 Toast.makeText(getApplicationContext(), "Car added", Toast.LENGTH_LONG).show();
 
             }
 
         }
+    }
+
+    private void updateList() {
+        if(cars.size() > 1) {
+            adapter.clear();
+        }
+        adapter.addAll(cars);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        carList.setAdapter(adapter);
     }
 
     /**

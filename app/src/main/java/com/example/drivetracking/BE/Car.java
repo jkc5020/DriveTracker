@@ -16,25 +16,24 @@ import androidx.annotation.NonNull;
  * in order to calculate the mpg of that car
  */
 public class Car implements Parcelable {
-    private String make;    //car make
-    private String model;   //car model
-    private String year;    //car year
-    private int mpg;        //mpg
-    private Context context;
+    private final String make;    //car make
+    private final String model;   //car model
+    private final String year;    //car year
+    private final int mpg;        //mpg
+
 
     /**
      * Constructor
      * @param make - car make
      * @param model - car model
      * @param year - car year
-     * @param context - application context
      */
-    public Car(String make, String model, String year, int mpg, Context context) {
+    public Car(String make, String model, String year, int mpg) {
         this.make = make;
         this.model = model;
         this.year = year;
         this.mpg = mpg;
-        this.context = context;
+
 
     }
 
