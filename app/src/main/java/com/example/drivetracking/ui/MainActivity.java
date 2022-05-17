@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         this.make = (EditText) findViewById(R.id.make);
         this.model = (EditText) findViewById(R.id.model);
         this.year = (EditText) findViewById(R.id.year);
-        carInfo = (TextView) findViewById(R.id.currentCar);
+
 
 
         if(cars.size() > 0){
@@ -245,10 +245,6 @@ public class MainActivity extends AppCompatActivity {
                 this.car= new Car(make.getText().toString(),
                         model.getText().toString(), year.getText().toString(), mpg);
                 System.out.println(mpg);
-                this.carInfo.setText(car.toString());
-                make.setText("");
-                model.setText("");
-                year.setText("");
                 cars.add(car);
                 updateList();
                 Toast.makeText(getApplicationContext(), "Car added", Toast.LENGTH_LONG).show();
